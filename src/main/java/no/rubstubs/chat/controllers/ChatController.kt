@@ -64,8 +64,6 @@ class ChatController (
     @GetMapping("/messages/stream", MediaType.TEXT_EVENT_STREAM_VALUE)
     fun feed(): Flux<Int> {
         return Flux.interval(Duration.ofMillis(1000))
-            .map {
-                messageService.getChatMessagesAsHtml().hashCode()
-            }
+            .map { messageService.getChatMessagesAsHtml().hashCode() }
     }
 }
