@@ -1,13 +1,3 @@
-//Submitting message
-// const inputField = document.getElementById("input-field")
-
-// const submitMessage = () => {
-//     const xhr = new XMLHttpRequest()
-//     xhr.open("POST", "/postMessage/" + inputField.value)
-//     xhr.send(null)
-//     inputField.value = ""
-// }
-
 // Cookie handling
 function changeAlias() {
     let alias = prompt("Enter alias:")
@@ -44,8 +34,10 @@ function loadComments () {
         this.source = new EventSource("/messages/stream")
 
         this.source.addEventListener("message", function (event) {
-            box.innerHTML = event.data
-            box.scrollTop = box.scrollHeight
+            if (box.innerHTML.length !== event.data.length) {
+                box.innerHTML = event.data
+                box.scrollTop = box.scrollHeight
+            }
         })
         this.source.onerror = function () {
             this.close();
@@ -58,6 +50,7 @@ function loadComments () {
 
 const comment = new loadComments()
 
+// Start the chat on page load
 function getAllMessages() {
     fetch("/getAllMessages")
         .then(response => response.text())
