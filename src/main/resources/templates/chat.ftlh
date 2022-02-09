@@ -10,6 +10,7 @@
 <body>
 <div id="header">
     <h1 id="welcome-text">The Chat!</h1>
+    <div id="comments"></div>
 </div>
 <div id="chat-box">
     <div id="chat-messages"></div>
@@ -26,7 +27,6 @@
         <form action="/reset" method="POST"><input type="submit" value="Reset The Chat" class="reset-btn"></form>
     </div>
 </div>
-
 <script src="script.js"></script>
 </body>
 </html>
