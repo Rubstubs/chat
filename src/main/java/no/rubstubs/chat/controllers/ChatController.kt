@@ -19,6 +19,12 @@ class ChatController (
         response.sendRedirect("/chat")
     }
 
+
+    @GetMapping("favicon.ico")
+    @ResponseBody
+    fun returnNoFavicon() {
+    }
+
     @PostMapping("/reset")
     fun handleResetDb(response: HttpServletResponse){
         messageService.resetDb()
