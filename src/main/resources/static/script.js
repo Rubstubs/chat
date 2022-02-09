@@ -1,6 +1,5 @@
 let currentAmtOfMessages = 0;
 let numOfMessagesInDb = 0;
-let allMessages = "Nothing here..."
 
 // Cookie handling
 function changeAlias() {
@@ -31,9 +30,6 @@ if (!isAliasRegistered()) changeAlias()
 // Refreshing site if new messages
 function updateLoop() {
     setTimeout(() => {
-        // if (allMessages.length !== chatMessages.innerHTML.length) {
-        //     chatMessages.innerHTML = allMessages
-        // }
         if (needToUpdate()) {
             history.go(0)
         } else {
@@ -44,7 +40,7 @@ function updateLoop() {
 
 function updateNumOfMessagesInDb() {
     const xhr = new XMLHttpRequest()
-    xhr.open("GET", "/numberOfMessages/", true)
+    xhr.open("GET", "/numberOfMessages", true)
     xhr.onload = function () {
         if (xhr.readyState === xhr.DONE) {
             if (xhr.status === 200) {
@@ -62,7 +58,7 @@ function needToUpdate() {
 
 function updateCurrentNumberOfMessages() {
     const xhr = new XMLHttpRequest()
-    xhr.open("GET", "/numberOfMessages/", true)
+    xhr.open("GET", "/numberOfMessages", true)
     xhr.onload = function () {
         if (xhr.readyState === xhr.DONE) {
             if (xhr.status === 200) {
