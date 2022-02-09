@@ -1,0 +1,84 @@
+html,
+body {
+    height: 98%;
+    min-height: 98%;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+}
+
+
+#header, #footer {
+    flex: 0 0 auto;
+}
+
+#header. > * {
+    margin: 20px 0 20px 2px;
+}
+
+#welcome-text {
+    margin: 0px 0px 10px 0px
+}
+
+#chat-box {
+    flex: 1 1 auto;
+    overflow-y: scroll;
+    border: 1px black solid;
+    padding: 5px;
+    word-wrap: anywhere
+}
+
+.submit-btn {
+    margin: 5px 0
+}
+
+#input-header {
+    margin: 10px 0
+}
+
+.changeAlias-btn {
+    margin-right: 5px;
+}
+
+#input-form {
+    margin: 0;
+    display: flex
+}
+
+#input-field {
+    font-size: 1.3em;
+    height: 40px;
+    width: 100%
+}
+
+#submit-btn {
+    margin: 0px 0px 0px 5px;
+    width: 6em
+}
+
+#logged-in-text {
+    margin: 5px 0
+}
+
+#settings-buttons {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chat-message-name {
+    margin: 2px 0;
+}
+
+.chat-message-timestamp {
+    font-size: 0.7em;
+    font-style: italic;
+    margin: 2px 0;
+}
+
+.chat-message-text {
+    margin: 7px 0
+}
