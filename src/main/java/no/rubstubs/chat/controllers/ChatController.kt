@@ -25,7 +25,6 @@ class ChatController (
         response.sendRedirect("/chat")
     }
 
-
     @GetMapping("favicon.ico")
     @ResponseBody
     fun returnNoFavicon() {
