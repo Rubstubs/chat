@@ -12,7 +12,7 @@
     <h1 id="welcome-text">The Chat!</h1>
 </div>
 <div id="chat-box">
-    <@chatMessages?interpret />
+    <div id="chat-messages"></div>
 </div>
 <div id="footer">
     <h2 id="input-header">Write a message:</h2>

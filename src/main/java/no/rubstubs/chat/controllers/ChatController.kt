@@ -42,4 +42,15 @@ class ChatController (
         }
         response.sendRedirect("/chat")
     }
+
+    @GetMapping("/numberOfMessages")
+    fun handleNumberOfMessages(): Int {
+        return messagesRepository.findAll().size
+    }
+
+    @GetMapping("/getAllMessages")
+    fun handleGetAllMessages(): String {
+        return messageService.getChatMessagesAsHtml()
+    }
+
 }
