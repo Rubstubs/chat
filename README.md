@@ -1,5 +1,6 @@
 # Spring Boot Web Server for Chatting
-###This server is using FreeMarker for server-side rendering, MongoDB for storage, and is hosted on Heroku.
+
+### This server is using FreeMarker for server-side rendering, MongoDB for storage, and is hosted on Heroku.
 
 ## Hosting locally
 application.properties sets current profile to "prod" unless it is overruled in the run configuration.
