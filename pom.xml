@@ -14,7 +14,7 @@
 	<name>chat</name>
 	<description>Spring boot, freemarker, mongoDB based chat hosted at Heroku</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>1.8</java.version>
 		<kotlin.version>1.6.10</kotlin.version>
 	</properties>
 	<dependencies>
