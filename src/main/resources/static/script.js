@@ -36,17 +36,11 @@ function loadComments () {
         this.source = new EventSource("/messages/stream")
 
         this.source.addEventListener("message", function (event) {
-            console.log("hash:       " + htmlHash)
-            console.log("event data: " + event.data)
             if (event.data !== htmlHash) {
                 getAllMessages()
                 box.scrollTop = box.scrollHeight
                 htmlHash = event.data
             }
-            // if (box.innerHTML.length !== event.data.length) {
-            //     box.innerHTML = event.data
-            //     box.scrollTop = box.scrollHeight
-            // }
         })
         this.source.onerror = function () {
             this.close();

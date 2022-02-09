@@ -38,6 +38,6 @@ class MessageService (
     fun sanitizeAlias(message: String): String {
         if (message.isEmpty()) return "Anonymous"
         val doc = Jsoup.parse(message)
-        return Jsoup.clean(doc.text(), Safelist.none())
+        return Jsoup.clean(doc.text(), Safelist.relaxed())
     }
 }
