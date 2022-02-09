@@ -28,16 +28,25 @@ const box = document.getElementById("chat-box")
 
 document.querySelector(".changeAlias-btn").addEventListener("click", () => changeAlias())
 
+let htmlHash;
+
 function loadComments () {
     this.source = null
     this.start = () => {
         this.source = new EventSource("/messages/stream")
 
         this.source.addEventListener("message", function (event) {
-            if (box.innerHTML.length !== event.data.length) {
-                box.innerHTML = event.data
+            console.log("hash:       " + htmlHash)
+            console.log("event data: " + event.data)
+            if (event.data !== htmlHash) {
+                getAllMessages()
                 box.scrollTop = box.scrollHeight
+                htmlHash = event.data
             }
+            // if (box.innerHTML.length !== event.data.length) {
+            //     box.innerHTML = event.data
+            //     box.scrollTop = box.scrollHeight
+            // }
         })
         this.source.onerror = function () {
             this.close();

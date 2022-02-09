@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 import java.time.Duration
 import java.time.LocalDateTime
-import java.time.LocalTime
-import java.util.function.Function
 import javax.servlet.http.HttpServletResponse
-import javax.servlet.http.HttpServletResponse.SC_OK
 
 @RestController
 class ChatController (
@@ -64,11 +61,11 @@ class ChatController (
         return messageService.getChatMessagesAsHtml()
     }
 
-    @GetMapping(path = ["/messages/stream"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
-    fun feed(): Flux<String> {
+    @GetMapping("/messages/stream", MediaType.TEXT_EVENT_STREAM_VALUE)
+    fun feed(): Flux<Int> {
         return Flux.interval(Duration.ofMillis(1000))
             .map {
-                messageService.getChatMessagesAsHtml()
+                messageService.getChatMessagesAsHtml().hashCode()
             }
     }
 }
