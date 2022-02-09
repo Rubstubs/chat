@@ -4,9 +4,15 @@ import no.rubstubs.chat.models.MessageModel
 import no.rubstubs.chat.repositories.MessagesRepository
 import no.rubstubs.chat.services.MessageService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
+import reactor.core.publisher.Flux
+import java.time.Duration
 import java.time.LocalDateTime
+import java.time.LocalTime
+import java.util.function.Function
 import javax.servlet.http.HttpServletResponse
+import javax.servlet.http.HttpServletResponse.SC_OK
 
 @RestController
 class ChatController (
@@ -40,7 +46,7 @@ class ChatController (
                 )
             )
         }
-        response.sendRedirect("/chat")
+        response.sendRedirect("/")
     }
 
     @GetMapping("/numberOfMessages")
@@ -53,4 +59,11 @@ class ChatController (
         return messageService.getChatMessagesAsHtml()
     }
 
+    @GetMapping(path = ["/messages/stream"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
+    fun feed(): Flux<String> {
+        return Flux.interval(Duration.ofMillis(1000))
+            .map {
+                messageService.getChatMessagesAsHtml()
+            }
+    }
 }

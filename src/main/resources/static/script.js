@@ -1,5 +1,12 @@
-let currentAmtOfMessages = 0;
-let numOfMessagesInDb = 0;
+//Submitting message
+// const inputField = document.getElementById("input-field")
+
+// const submitMessage = () => {
+//     const xhr = new XMLHttpRequest()
+//     xhr.open("POST", "/postMessage/" + inputField.value)
+//     xhr.send(null)
+//     inputField.value = ""
+// }
 
 // Cookie handling
 function changeAlias() {
@@ -26,48 +33,30 @@ function getCookieByName(cookieName)
 
 if (!isAliasRegistered()) changeAlias()
 
+// Chat as stream
+const box = document.getElementById("chat-box")
 
-// Refreshing site if new messages
-function updateLoop() {
-    setTimeout(() => {
-        if (needToUpdate()) {
-            history.go(0)
-        } else {
-            updateLoop()
-        }
-    }, 2000)
-}
+document.querySelector(".changeAlias-btn").addEventListener("click", () => changeAlias())
 
-function updateNumOfMessagesInDb() {
-    const xhr = new XMLHttpRequest()
-    xhr.open("GET", "/numberOfMessages", true)
-    xhr.onload = function () {
-        if (xhr.readyState === xhr.DONE) {
-            if (xhr.status === 200) {
-                numOfMessagesInDb = xhr.response
-            }
+function loadComments () {
+    this.source = null
+    this.start = () => {
+        this.source = new EventSource("/messages/stream")
+
+        this.source.addEventListener("message", function (event) {
+            box.innerHTML = event.data
+            box.scrollTop = box.scrollHeight
+        })
+        this.source.onerror = function () {
+            this.close();
         }
     }
-    xhr.send(null)
-}
-
-function needToUpdate() {
-    updateNumOfMessagesInDb()
-    return parseInt(numOfMessagesInDb) !== currentAmtOfMessages
-}
-
-function updateCurrentNumberOfMessages() {
-    const xhr = new XMLHttpRequest()
-    xhr.open("GET", "/numberOfMessages", true)
-    xhr.onload = function () {
-        if (xhr.readyState === xhr.DONE) {
-            if (xhr.status === 200) {
-                currentAmtOfMessages = parseInt(xhr.response)
-            }
-        }
+    this.stop = function() {
+        this.source.close();
     }
-    xhr.send(null)
 }
+
+const comment = new loadComments()
 
 function getAllMessages() {
     fetch("/getAllMessages")
@@ -78,13 +67,12 @@ function getAllMessages() {
         })
 }
 
-const box = document.getElementById("chat-box")
+window.onload = function() {
+    getAllMessages()
+    comment.start();
+};
+window.onbeforeunload = function() {
+    comment.stop();
+}
+
 box.scrollTop = box.scrollHeight
-
-document.querySelector(".changeAlias-btn").addEventListener("click", () => changeAlias())
-
-getAllMessages()
-updateCurrentNumberOfMessages()
-updateNumOfMessagesInDb()
-
-updateLoop()
