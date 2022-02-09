@@ -44,7 +44,13 @@ class ChatController (
     }
 
     @GetMapping("/numberOfMessages")
-    fun handleNumberOfMessages(): String {
-        return messagesRepository.findAll().size.toString()
+    fun handleNumberOfMessages(): Int {
+        return messagesRepository.findAll().size
     }
+
+    @GetMapping("/getAllMessages")
+    fun handleGetAllMessages(): String {
+        return messageService.getChatMessagesAsHtml()
+    }
+
 }

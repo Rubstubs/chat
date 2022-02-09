@@ -1,10 +1,8 @@
-const box = document.getElementById("chat-box")
-box.scrollTop = box.scrollHeight
-
-let prevAmtOfMessages = 0;
 let currentAmtOfMessages = 0;
-const xhr = new XMLHttpRequest()
+let numOfMessagesInDb = 0;
+let allMessages = "Nothing here..."
 
+// Cookie handling
 function changeAlias() {
     let alias = prompt("Enter alias:")
     if (alias.length === 0) {
@@ -29,28 +27,42 @@ function getCookieByName(cookieName)
 
 if (!isAliasRegistered()) changeAlias()
 
+
+// Refreshing site if new messages
 function updateLoop() {
     setTimeout(() => {
-        updateCurrentNumberOfMessages()
-        if (prevAmtOfMessages < currentAmtOfMessages) {
+        // if (allMessages.length !== chatMessages.innerHTML.length) {
+        //     chatMessages.innerHTML = allMessages
+        // }
+        if (needToUpdate()) {
             history.go(0)
-        } else updateLoop()
+        } else {
+            updateLoop()
+        }
     }, 2000)
 }
 
-function updatePrevNumberOfMessages() {
-    xhr.open( "GET", "/numberOfMessages", true)
+function updateNumOfMessagesInDb() {
+    const xhr = new XMLHttpRequest()
+    xhr.open("GET", "/numberOfMessages/", true)
     xhr.onload = function () {
         if (xhr.readyState === xhr.DONE) {
             if (xhr.status === 200) {
-                prevAmtOfMessages = parseInt(xhr.response)
+                numOfMessagesInDb = xhr.response
             }
         }
     }
-    xhr.send( null )
+    xhr.send(null)
 }
+
+function needToUpdate() {
+    updateNumOfMessagesInDb()
+    return parseInt(numOfMessagesInDb) !== currentAmtOfMessages
+}
+
 function updateCurrentNumberOfMessages() {
-    xhr.open( "GET", "/numberOfMessages", true)
+    const xhr = new XMLHttpRequest()
+    xhr.open("GET", "/numberOfMessages/", true)
     xhr.onload = function () {
         if (xhr.readyState === xhr.DONE) {
             if (xhr.status === 200) {
@@ -58,11 +70,25 @@ function updateCurrentNumberOfMessages() {
             }
         }
     }
-    xhr.send( null )
+    xhr.send(null)
 }
 
-document.querySelector(".changeAlias-btn").addEventListener("click", () => changeAlias())
-const chatMessages = document.querySelector("#chat-messages")
+function getAllMessages() {
+    fetch("/getAllMessages")
+        .then(response => response.text())
+        .then(data => {
+            document.querySelector("#chat-messages").innerHTML = data
+            box.scrollTop = box.scrollHeight
+        })
+}
 
-updatePrevNumberOfMessages()
+const box = document.getElementById("chat-box")
+box.scrollTop = box.scrollHeight
+
+document.querySelector(".changeAlias-btn").addEventListener("click", () => changeAlias())
+
+getAllMessages()
+updateCurrentNumberOfMessages()
+updateNumOfMessagesInDb()
+
 updateLoop()
