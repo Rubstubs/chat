@@ -32,7 +32,7 @@ class MessageService (
     fun sanitizeMessage(message: String): String {
         if (message.isEmpty()) return "empty message"
         val doc = Jsoup.parse(message)
-        return Jsoup.clean(doc.text(), Safelist.relaxed())
+        return Jsoup.clean(doc.text(), Safelist.none())
     }
 
     fun sanitizeAlias(message: String): String {

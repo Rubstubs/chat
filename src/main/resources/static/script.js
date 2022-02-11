@@ -1,6 +1,6 @@
 // Cookie handling
 function changeAlias() {
-    let alias = prompt("Enter alias:")
+    let alias = prompt("Enter alias (a-z only):")
     if (alias.length === 0) {
         changeAlias()
     } else {
